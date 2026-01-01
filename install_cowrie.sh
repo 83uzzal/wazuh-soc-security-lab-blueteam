@@ -1,23 +1,64 @@
 #!/bin/bash
-set -e
+# ============================================================
+# Cowrie Installer Wrapper
+# Repo: wazuh-soc-security-lab
+# Installs Cowrie using:
+# https://github.com/83uzzal/cowrie-auto-installer.git
+# Tested on Ubuntu 24.04 LTS
+# ============================================================
 
-echo "[+] Installing Cowrie Honeypot"
+set -Eeuo pipefail
 
-sudo apt update
-sudo apt install -y git python3-venv libssl-dev libffi-dev build-essential
+COWRIE_INSTALLER_REPO="https://github.com/83uzzal/cowrie-auto-installer.git"
+INSTALL_DIR="/opt/cowrie-auto-installer"
 
-sudo useradd -r -s /bin/false cowrie || true
-sudo mkdir -p /opt/cowrie
-sudo chown cowrie:cowrie /opt/cowrie
+# -----------------------------
+# Root Check
+# -----------------------------
+if [[ $EUID -ne 0 ]]; then
+  echo "[ERROR] Run as root:"
+  echo "sudo ./install_cowrie.sh"
+  exit 1
+fi
 
-sudo -u cowrie git clone https://github.com/cowrie/cowrie.git /opt/cowrie
+echo "[+] Starting Cowrie installation via auto-installer"
 
-sudo -u cowrie python3 -m venv /opt/cowrie/venv
-sudo -u cowrie /opt/cowrie/venv/bin/pip install --upgrade pip
-sudo -u cowrie /opt/cowrie/venv/bin/pip install -r /opt/cowrie/requirements.txt
+# -----------------------------
+# Basic Dependencies
+# -----------------------------
+apt update -y
+apt install -y git curl sudo
 
-# Deploy config
-sudo cp cowrie/cowrie.cfg /opt/cowrie/etc/cowrie.cfg
+# -----------------------------
+# Clone Auto Installer
+# -----------------------------
+if [[ -d "${INSTALL_DIR}" ]]; then
+  echo "[!] Existing installer found, removing..."
+  rm -rf ${INSTALL_DIR}
+fi
 
-echo "[+] Cowrie installed"
-echo "[!] Run manually: sudo -u cowrie /opt/cowrie/bin/cowrie start"
+echo "[+] Cloning cowrie-auto-installer"
+git clone ${COWRIE_INSTALLER_REPO} ${INSTALL_DIR}
+
+cd ${INSTALL_DIR}
+
+# -----------------------------
+# Make Executable
+# -----------------------------
+chmod +x install_cowrie.sh
+
+# -----------------------------
+# Run Installer
+# -----------------------------
+echo "[+] Running cowrie auto installer"
+./install_cowrie.sh
+
+# -----------------------------
+# Final Status
+# -----------------------------
+echo "--------------------------------------"
+echo "[+] Cowrie installation triggered"
+echo "[+] Check status with:"
+echo "systemctl status cowrie"
+echo "journalctl -u cowrie -f"
+echo "--------------------------------------"
