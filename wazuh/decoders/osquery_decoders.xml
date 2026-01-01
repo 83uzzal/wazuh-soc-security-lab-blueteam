@@ -1,0 +1,8 @@
+<decoder name="osquery_custom">
+  <program_name>^osqueryd</program_name>
+</decoder>
+
+<decoder name="osquery_custom_json">
+  <parent>osquery_custom</parent>
+  <plugin_decoder offset="after_parent">JSON_Decoder</plugin_decoder>
+</decoder>

@@ -1,0 +1,107 @@
+<!-- WAZUH LOCAL RULES - UPDATED 2025-12-31 -->
+
+<!-- YARA Malware Detection Rules -->
+<group name="yara,">
+  <!-- Rule 120001: Matches logs from the yara.sh script using the yara_decoder -->
+  <rule id="120001" level="0">
+    <decoded_as>yara_decoder</decoded_as>
+    <description>YARA grouping rule</description>
+  </rule>
+
+  <!-- Rule 120002: Triggers high-severity alert on a YARA match -->
+  <rule id="120002" level="12">
+    <if_sid>120001</if_sid>
+    <match>wazuh-yara: INFO - Scan result:</match>
+    <description>YARA: Malware detected: $(yara_rule) in $(yara_scanned_file)</description>
+    <group>malware_detection,syscheck,virus,pci_dss_11.4,</group>
+  </rule>
+</group>
+
+<!-- Existing Cowrie rules -->
+<group name="cowrie">
+  <rule id="100001" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="eventid">cowrie.login.failed|cowrie.session.closed</field>
+    <description>Cowrie honeypot event detected</description>
+  </rule>
+
+  <rule id="100002" level="7">
+    <if_sid>100001</if_sid>
+    <field name="eventid">cowrie.login.failed</field>
+    <description>Cowrie: Honeypot login failure attempt</description>
+    <group>authentication_failed,pci_dss_10.2.4</group>
+  </rule>
+</group>
+
+<!-- New Osquery rules -->
+<group name="osquery,syslog,osquery_alerts">
+  <rule id="110001" level="7">
+    <decoded_as>json</decoded_as>
+    <field name="name">pack_it-compliance_file_events</field>
+    <description>Osquery: File event detected (added, removed, opened)</description>
+  </rule>
+
+  <rule id="110002" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="name">pack_it-compliance_process_events</field>
+    <description>Osquery: Process event detected (created, terminated)</description>
+  </rule>
+
+  <rule id="110003" level="5">
+    <decoded_as>json</decoded_as>
+    <field name="name">system_info</field>
+    <description>Osquery: System info change detected (CPU, memory, hostname)</description>
+  </rule>
+
+  <rule id="110004" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="name">pack_it-compliance_network_events</field>
+    <description>Osquery: Network event detected</description>
+  </rule>
+
+  <rule id="110005" level="5">
+    <decoded_as>json</decoded_as>
+    <field name="name">scheduled_query</field>
+    <description>Osquery: Scheduled query result</description>
+  </rule>
+</group>
+
+<!-- ================= CALDERA ATT&CK RULES ================= -->
+<group name="caldera,audit,mitre,">
+
+  <!-- Command Execution -->
+  <rule id="130001" level="8">
+    <if_sid>1002</if_sid>
+    <field name="audit.key">caldera_exec</field>
+    <description>CALDERA: Command execution detected: $(audit.key)</description>
+    <mitre><id>T1059</id></mitre>
+    <group>execution,attack.t1059</group>
+  </rule>
+
+  <!-- Privilege Escalation -->
+  <rule id="130002" level="10">
+    <if_sid>1002</if_sid>
+    <field name="audit.key">caldera_priv</field>
+    <description>CALDERA: Privilege escalation attempt: $(audit.key)</description>
+    <mitre><id>T1548.003</id></mitre>
+    <group>privilege_escalation,attack.t1548</group>
+  </rule>
+
+  <!-- Persistence -->
+  <rule id="130003" level="11">
+    <if_sid>1002</if_sid>
+    <field name="audit.key">caldera_persist</field>
+    <description>CALDERA: Persistence mechanism detected: $(audit.key)</description>
+    <mitre><id>T1053.003</id></mitre>
+    <group>persistence,attack.t1053</group>
+  </rule>
+
+  <!-- General Catch-all Rule for any Audit Key -->
+  <rule id="130004" level="7">
+    <decoded_as>kernel</decoded_as> <!-- সরাসরি ডিকোডার ব্যবহার করা হচ্ছে -->
+    <field name="audit.key">\.+</field> 
+    <description>Caldera Audit: Security key detected: $(audit.key)</description>
+    <mitre><id>T1059</id></mitre>
+  </rule>
+
+</group>

@@ -1,0 +1,16 @@
+<decoder name="yara_decoder">
+  <prematch>wazuh-yara:</prematch>
+</decoder>
+
+<decoder name="yara_decoder_child">
+  <parent>yara_decoder</parent>
+  <regex offset="after_parent">INFO - Scan result: (\S+) (\S+)</regex>
+  <order>yara_rule, yara_scanned_file</order>
+</decoder>
+
+<decoder name="caldera-audit">
+  <parent>kernel</parent>
+  <regex>key="(\w+)"</regex>
+  <order>audit.key</order>
+</decoder>
+

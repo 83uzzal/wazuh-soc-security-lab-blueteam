@@ -1,0 +1,4 @@
+<decoder name="cowrie-custom">
+  <prematch>cowrie.login.failed|cowrie.session.closed</prematch>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>

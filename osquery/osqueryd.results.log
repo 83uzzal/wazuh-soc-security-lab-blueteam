@@ -1,0 +1,25 @@
+{"name":"system_info","hostIdentifier":"alamgir-VMware-Virtual-Platform","calendarTime":"Mon Dec 29 11:32:25 2025 UTC","unixTime":1767007945,"epoch":0,"counter":0,"numerics":false,"columns":{"cpu_brand":"Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz","hostname":"alamgir-VMware-Virtual-Platform","physical_memory":"6628790272"},"action":"added"}
+{"name":"system_info","hostIdentifier":"alamgir-VMware-Virtual-Platform","calendarTime":"Tue Dec 30 04:18:36 2025 UTC","unixTime":1767068316,"epoch":0,"counter":1,"numerics":false,"columns":{"cpu_brand":"Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz","hostname":"alamgir-VMware-Virtual-Platform","physical_memory":"6628790272"},"action":"removed"}
+{"name":"system_info","hostIdentifier":"alamgir-VMware-Virtual-Platform","calendarTime":"Tue Dec 30 04:18:36 2025 UTC","unixTime":1767068316,"epoch":0,"counter":1,"numerics":false,"columns":{"cpu_brand":"Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz","hostname":"alamgir-VMware-Virtual-Platform","physical_memory":"6628798464"},"action":"added"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:37Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:38Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:39Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:40Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:41Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:42Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:43Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:44Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:45Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:46Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:47Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:48Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:49Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:50Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:51Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:52Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:53Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:54Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:55Z"}
+{"name":"pack_it-compliance_file_events","hostIdentifier":"ubuntu","columns":{"action":"opened","path":"/etc/shadow"},"action":"added","timestamp":"2025-12-30T14:54:56Z"}
+{"name":"system_info","hostIdentifier":"alamgir-VMware-Virtual-Platform","calendarTime":"Wed Dec 31 04:32:00 2025 UTC","unixTime":1767155520,"epoch":0,"counter":2,"numerics":false,"columns":{"cpu_brand":"Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz","hostname":"alamgir-VMware-Virtual-Platform","physical_memory":"6628798464"},"action":"removed"}
+{"name":"system_info","hostIdentifier":"alamgir-VMware-Virtual-Platform","calendarTime":"Wed Dec 31 04:32:00 2025 UTC","unixTime":1767155520,"epoch":0,"counter":2,"numerics":false,"columns":{"cpu_brand":"Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz","hostname":"alamgir-VMware-Virtual-Platform","physical_memory":"7144689664"},"action":"added"}

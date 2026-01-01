@@ -1,0 +1,13 @@
+## === CALDERA Execution Detection ===
+-a always,exit -F arch=b64 -S execve -k caldera_exec
+
+## === Privilege Escalation ===
+-w /etc/sudoers -p wa -k caldera_priv
+-w /etc/sudoers.d/ -p wa -k caldera_priv
+
+## === Persistence via Cron ===
+-w /etc/cron.d/ -p wa -k caldera_persist
+-w /etc/crontab -p wa -k caldera_persist
+
+## === SSH Persistence ===
+-w /home/ -p wa -k caldera_persist
