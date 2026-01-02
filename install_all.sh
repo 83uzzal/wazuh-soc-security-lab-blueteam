@@ -163,9 +163,16 @@ install_yara_clamav
 install_osquery
 install_cowrie
 
+# ---------------------------
+# Final Output
+# ---------------------------
 log "INSTALLATION COMPLETED SUCCESSFULLY"
-echo "================================================="
-echo " Wazuh Dashboard: https://$(hostname -I | awk '{print $1}')"
-echo " Credentials    : /root/wazuh_dashboard_creds.txt"
-echo " Logs           : $LOG_FILE"
-echo "================================================="
+echo "==========================================="
+echo "        WAZUH DASHBOARD ACCESS INFORMATION"
+echo "==========================================="
+echo " URL      : https://$SERVER_IP:443"
+echo " Username : $DASH_USER"
+echo " Password : $DASH_PASS"
+echo "==========================================="
+echo " Suricata Interface : $PRIMARY_IF"
+echo " Suricata rules updated and running"
