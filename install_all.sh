@@ -1,13 +1,16 @@
 #!/bin/bash
 # ============================================================
 # SOC Home Lab - One Command Installer (FINAL)
+#
 # Components:
 #   - Wazuh 4.14 (Manager + Dashboard)
 #   - Suricata IDS
 #   - YARA
 #   - ClamAV
 #   - Osquery
-#   - Cowrie Honeypot (via install_cowrie.sh)
+#   - Cowrie Honeypot
+#   - Deploy SOC configs via deploy_socs.sh
+#
 # OS: Ubuntu 22.04 / 24.04
 # ============================================================
 
@@ -22,9 +25,14 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # ------------------------------------------------------------
+# Variables
+# ------------------------------------------------------------
+SERVER_IP=$(hostname -I | awk '{print $1}')
+LOG_FILE="/var/log/soc_install.log"
+
+# ------------------------------------------------------------
 # Logging
 # ------------------------------------------------------------
-LOG_FILE="/var/log/soc_install.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
 log()  { echo -e "\n[INFO] $(date '+%F %T') - $1"; }
@@ -37,16 +45,12 @@ log "SOC Home Lab installer started"
 # Base packages
 # ------------------------------------------------------------
 log "Updating system & installing base packages"
-apt update -y
-apt install -y curl gnupg apt-transport-https software-properties-common \
-               ca-certificates jq git python3 python3-venv python3-pip \
-               libssl-dev libffi-dev build-essential authbind dos2unix
 
-# Fix Cowrie script formatting if present
-if [[ -f ./install_cowrie.sh ]]; then
-    dos2unix ./install_cowrie.sh
-    chmod +x ./install_cowrie.sh
-fi
+apt update -y
+apt install -y \
+    curl gnupg apt-transport-https software-properties-common \
+    ca-certificates jq git python3 python3-venv python3-pip \
+    libssl-dev libffi-dev build-essential authbind dos2unix
 
 # ------------------------------------------------------------
 # Wazuh 4.14
@@ -66,6 +70,8 @@ install_wazuh() {
 
     echo "$DASH_USER:$DASH_PASS" > /root/wazuh_dashboard_creds.txt
     chmod 600 /root/wazuh_dashboard_creds.txt
+
+    log "Wazuh installed successfully"
 }
 
 # ------------------------------------------------------------
@@ -86,6 +92,8 @@ install_suricata() {
     suricata-update
     systemctl enable suricata
     systemctl restart suricata
+
+    log "Suricata running on interface: $PRIMARY_IF"
 }
 
 # ------------------------------------------------------------
@@ -93,13 +101,14 @@ install_suricata() {
 # ------------------------------------------------------------
 install_yara_clamav() {
     log "Installing YARA & ClamAV"
+
     apt install -y yara clamav clamav-daemon
 
     systemctl stop clamav-freshclam || true
     freshclam
 
     systemctl enable clamav-daemon
-    systemctl start clamav-daemon
+    systemctl restart clamav-daemon
 }
 
 # ------------------------------------------------------------
@@ -116,6 +125,7 @@ install_osquery() {
     dpkg -i /tmp/osquery.deb || apt -f install -y
 
     mkdir -p /etc/osquery
+
     cat <<EOF >/etc/osquery/osquery.conf
 {
   "options": {
@@ -137,7 +147,7 @@ EOF
 }
 
 # ------------------------------------------------------------
-# Cowrie (delegated installer)
+# Cowrie Honeypot
 # ------------------------------------------------------------
 install_cowrie() {
     log "Installing Cowrie honeypot"
@@ -149,7 +159,24 @@ install_cowrie() {
 
     [[ -f ./install_cowrie.sh ]] || fail "install_cowrie.sh not found"
 
+    dos2unix ./install_cowrie.sh
+    chmod +x ./install_cowrie.sh
+
     ./install_cowrie.sh
+}
+
+# ------------------------------------------------------------
+# Deploy SOC Configurations
+# ------------------------------------------------------------
+deploy_soc_configs() {
+    log "Deploying SOC configuration files"
+
+    [[ -f ./deploy_socs.sh ]] || fail "deploy_socs.sh not found"
+
+    dos2unix ./deploy_socs.sh || true
+    chmod +x ./deploy_socs.sh
+
+    ./deploy_socs.sh
 }
 
 # ------------------------------------------------------------
@@ -162,17 +189,18 @@ install_suricata
 install_yara_clamav
 install_osquery
 install_cowrie
+deploy_soc_configs
 
-# ---------------------------
+# ------------------------------------------------------------
 # Final Output
-# ---------------------------
+# ------------------------------------------------------------
 log "INSTALLATION COMPLETED SUCCESSFULLY"
+
 echo "==========================================="
-echo "        WAZUH DASHBOARD ACCESS INFORMATION"
+echo "        SOC HOME LAB READY"
 echo "==========================================="
 echo " URL      : https://$SERVER_IP:443"
 echo " Username : $DASH_USER"
 echo " Password : $DASH_PASS"
+echo " Logs : $LOG_FILE"
 echo "==========================================="
-echo " Suricata Interface : $PRIMARY_IF"
-echo " Suricata rules updated and running"
